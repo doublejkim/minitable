@@ -1,0 +1,24 @@
+version: "3.7"
+networks:
+  backend:
+services:
+  db:
+    image: mariadb:10
+    env_file:
+      - "./db/.env"
+    volumes:
+      - "./db/data:/var/lib/mysql"
+      - "./db/dump:/disk"
+      - "./db/initdb.d:/docker-entrypoint-initdb.d"
+    # .env 파일을 db 디렉토리 안에 생성한후 아래 envirionment: 항목을 제외한 대문자로표시된 모든 항목을 기술필요
+    #environment:
+    # TZ=Asia/Seoul
+    # MYSQL_HOST=localhost
+    # MYSQL_PORT=3306
+    # MYSQL_ROOT_PASSWORD=
+    # MYSQL_DATABASE=
+    # MYSQL_USER=
+    # MYSQL_PASSWORD=
+    ports:
+      - "3306:3306"
+    restart: always

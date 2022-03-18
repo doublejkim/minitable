@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/minitable
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: dbuser   # 암호화 하거나 다른데서 주입되도록 변경 필요
+    password: dbuser123
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        #use_sql_comments: true  # Querydsl 사용할경우 jpql 을 확인하고싶을경우 주석으로 볼수있음
