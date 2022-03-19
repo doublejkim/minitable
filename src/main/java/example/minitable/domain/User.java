@@ -92,4 +92,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return "Y".equals(this.enabled);
     }
+
+    @Override
+    public String toString() {
+        return "(email : " + email + ", name : " + username + ", twitId : " + twitterId + ", gender : " + gender + ", age : " + age + ")";
+    }
 }
