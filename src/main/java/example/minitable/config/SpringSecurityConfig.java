@@ -7,15 +7,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +46,46 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Csrf Attack 을 막기위한 Csrf Filter 적용
         http.csrf();
+
+
+        // authorization
+        http.authorizeRequests()
+                // /와 /home은 모두에게 허용
+                .antMatchers("/", "/home", "/signup").permitAll()
+                // hello 페이지는 USER 롤을 가진 유저에게만 허용
+                //.antMatchers("/note").hasRole("USER")
+                //.antMatchers("/admin").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.POST, "/notice").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.DELETE, "/notice").hasRole("ADMIN")
+                .anyRequest().authenticated();
+
+        // login
+        http.formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/")
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        log.info("=========================================================");
+                        log.info("login seuccess !!!!!!!!!!!!!!!!!!!");
+                        response.sendRedirect("/");
+                    }
+                })
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                        log.info("=========================================================");
+                        log.info(exception.getMessage());
+                        response.sendRedirect("/login");
+                    }
+                })
+                .permitAll(); // 모두 허용
+
+        // logout
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/");
     }
 
     @Override
@@ -50,13 +101,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //return super.userDetailsServiceBean();
 
         // username 에는 email 이 담겨있을꺼라고 일단 추축. 확인 필요
-        return (username) -> {
+        return (email) -> {
 
-            log.debug("loadUserByUsername : username : " + username);
+            log.debug("loadUserByUsername : email : " + email);
 
-            User user = userService.findByEmail(username);
+            User user = userService.findByEmail(email);
             if(user == null) {
-                throw new UsernameNotFoundException(username);
+                throw new UsernameNotFoundException(email);
             }
             return user;
         };
