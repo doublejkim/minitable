@@ -22,4 +22,8 @@ public class UserDto {
         this.gender = gender;
         this.age = age;
     }
+
+    public static UserDto from(SignUpRequest req) {
+        return new UserDto(req.getEmail(), req.getPassword(), req.getUsername(), req.getTwitterId(), req.getGender(), req.getAge());
+    }
 }
