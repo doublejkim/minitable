@@ -20,12 +20,13 @@ create table store (
                        store_name          varchar(50) not null,
                        address             varchar(100) not null,
                        phone               varchar(50) not null,
-                       start_time          timestamp not null,
-                       end_time            timestamp not null,
+                       start_time          varchar(2) not null,
+                       end_time            varchar(2) not null,
                        off_day             varchar(50),
-                       dtype               varchar(50) not null,
+                       dtype               varchar(30) not null,
                        booking_limit_yn    varchar(1) not null,
                        star_avg        double,
+                       random_no           varchar(10) not null,
                        created_at      timestamp,
                        modified_at     timestamp,
                        PRIMARY KEY pk_store (store_id),
@@ -34,28 +35,28 @@ create table store (
 );
 
 create table restaurant (
-                            restaurant_id       bigint not null auto_increment,
+                            -- restaurant_id       bigint not null auto_increment,
                             store_id            bigint not null,
-                            start_breaktime     timestamp,
-                            end_breaktime       timestamp,
+                            start_breaktime     varchar(2),
+                            end_breaktime       varchar(2),
                             pest_control_yn     varchar(1) not null,
-                            last_pest_control_date  timestamp,
+                            last_pest_control_date  varchar(10),
                             created_at      timestamp,
                             modified_at     timestamp,
-                            PRIMARY KEY pk_restaurant (restaurant_id),
+                            PRIMARY KEY pk_restaurant (store_id),
                             FOREIGN KEY fk_restaurant_01 (store_id) REFERENCES store (store_id)
 );
 
 create table menu (
                       menu_id         bigint not null auto_increment,
-                      restaurant_id   bigint not null,
+                      store_id   bigint not null,
                       menu_name       varchar(50) not null,
                       menu_desc       varchar(200),
                       menu_image      blob,
                       created_at      timestamp,
                       modified_at     timestamp,
                       PRIMARY KEY pk_menu (menu_id),
-                      FOREIGN KEY fk_menu_01 (restaurant_id) REFERENCES restaurant (restaurant_id)
+                      FOREIGN KEY fk_menu_01 (store_id) REFERENCES store (store_id)
 );
 
 create table booking (
@@ -101,6 +102,21 @@ create table convenience (
                              name    varchar(50) not null,
                              count   int not null,
                              PRIMARY KEY pk_convenience (convenience_id)
+);
+
+create table offday (
+    offday_id       bigint not null auto_increment,
+    store_id        bigint not null,
+    day_of_week     int not null,
+    PRIMARY KEY pk_offday (offday_id),
+    FOREIGN KEY fk_offday_01 (store_id) REFERENCES  store (store_id),
+    UNIQUE KEY uk_offday_01 (store_id, day_of_week)
+);
+
+create table random_register (
+    rr_id       bigint not null auto_increment PRIMARY KEY ,
+    random_no   int not null,
+    UNIQUE KEY   uk_random_register_01 (random_no)
 );
 
 
