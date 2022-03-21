@@ -14,15 +14,98 @@
     <h2 class="form-signin-heading">업체 사장님 가입</h2>
 
     <p>
+      <label for="email" class="sr-only">Email</label>
+      <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+    </p>
+
+    <p>
       <label for="username" class="sr-only">Username</label>
-      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
     </p>
     <p>
       <label for="password" class="sr-only">Password</label>
       <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
     </p>
+    <!--
+    <p>
+      <label for="twitterId" class="sr-only">Password</label>
+      <input type="text" id="twitterId" name="twitterId" class="form-control" placeholder="TwitterId" required>
+    </p>
+    -->
+    <p>
+    <div>
+      Gender :
+
+      <input type="radio" id=genderMan name="gender" value="man" checked="checked">
+      <label for="genderMan">Man</label>
+
+      <input type="radio" id=genderWoman name="gender" value="woman">
+      <label for="genderWoman">Woman</label>
+
+    </div>
+    </p>
+
+    <p>
+      <label for="age" class="sr-only">Age</label>
+      <input type="text" id="age" name="age" class="form-control" placeholder="Age" required>
+    </p>
+
+    <hr/> <!-- 아래부터는 업체 사장님을 위한 추가 업체 정보 입력 -->
+
+    <p>
+      <label for="storeName" class="sr-only">StoreName</label>
+      <input type="text" id="storeName" name="storeName" class="form-control" placeholder="StoreName" required>
+    </p>
+
+    <p>
+      <label for="address" class="sr-only">Address</label>
+      <input type="text" id="address" name="address" class="form-control" placeholder="Address" required>
+    </p>
+
+    <p>
+      <label for="phone" class="sr-only">Phone</label>
+      <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+    </p>
+
+    <!-- 숫자로구성된 2글자 내외 입력필요 -->
+    <p>
+      <label for="startTime" class="sr-only">StartTime1</label>
+      <input type="text" id="startTime" name="startTime" class="form-control" placeholder="StartTime" required>
+    </p>
+
+    <!-- 숫자로구성된 2글자 내외 입력필요 -->
+    <p>
+      <label for="endTime" class="sr-only">EndTime1</label>
+      <input type="text" id="endTime" name="endTime" class="form-control" placeholder="EndTime" required>
+    </p>
+
+    <!-- 숫자로구성된 2글자 내외 입력필요 -->
+    <p>
+      <label for="startBreakTime" class="sr-only">StartBreakTime</label>
+      <input type="text" id="startBreakTime" name="startBreakTime" class="form-control" placeholder="StartBreakTime">
+    </p>
+
+    <!-- 숫자로구성된 2글자 내외 입력필요 -->
+    <p>
+      <label for="endBreakTime" class="sr-only">StartBreakTime</label>
+      <input type="text" id="endBreakTime" name="endBreakTime" class="form-control" placeholder="StartBreakTime">
+    </p>
+
+    <p>
+      <select id="pestControlYn" name="pestControlYn">
+        <option value="Y" selected>정기 방역 수행</option>
+        <option value="N">정기 방역 미수행</option>
+      </select>
+    </p>
+
+    <!-- 숫자로구성된 2글자 내외 입력필요 -->
+    <p>
+      <label for="endBreakTime" class="sr-only">StartBreakTime</label>
+      <input type="text" id="endBreakTime" name="endBreakTime" class="form-control" placeholder="StartBreakTime">
+    </p>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">업체 사장님 가입</button>
+
   </form>
   
 </div>

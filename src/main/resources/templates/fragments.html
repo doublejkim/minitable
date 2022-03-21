@@ -48,9 +48,9 @@
             <a
               class="nav-link active"
               sec:authorize="hasAnyRole('ROLE_STORE_OWNER')"
-              th:href="@{/storeowner}"
+              th:href="@{/bookinglist}"
             >
-              업체 유저 전용 페이지
+              예약 현황
             </a>
           </li>
 
@@ -86,6 +86,21 @@
               회원가입
             </a>
           </li>
+
+
+          <li class="nav-item">
+            <!-- 로그인 안한 사람만 -->
+            <a
+                    class="nav-link active"
+                    sec:authorize="!isAuthenticated()"
+                    th:href="@{/signup-store-owner}"
+            >
+              업체가입
+            </a>
+          </li>
+
+
+
 
           <li class="nav-item">
             <!-- 로그인한 사람만 -->
