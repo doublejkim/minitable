@@ -1,5 +1,6 @@
 package example.minitable.domain;
 
+import example.minitable.domain.store.Store;
 import example.minitable.dto.UserDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,13 +31,19 @@ public class User implements UserDetails {
     private Long id;
 
     private String authority;
+
+
     private String email;
+
     private String password;
     private String username;
     private String twitterId;
     private String gender;
     private int age;
     private String enabled;
+
+    @OneToOne(mappedBy = "user")
+    private Store store;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -66,6 +73,8 @@ public class User implements UserDetails {
                 userDto.getAge()
         );
     }
+
+
 
 
     @Override
