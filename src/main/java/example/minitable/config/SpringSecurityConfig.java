@@ -1,24 +1,21 @@
 package example.minitable.config;
 
 import example.minitable.domain.User;
+import example.minitable.service.SignUpService;
 import example.minitable.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -51,7 +48,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // authorization
         http.authorizeRequests()
                 // /와 /home은 모두에게 허용
-                .antMatchers("/", "/home", "/signup").permitAll()
+                .antMatchers("/", "/home", "/signup", "/signup-store-owner").permitAll()
                 // hello 페이지는 USER 롤을 가진 유저에게만 허용
                 //.antMatchers("/note").hasRole("USER")
                 //.antMatchers("/admin").hasRole("ADMIN")
@@ -62,7 +59,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // login
         http.formLogin()
                 .loginPage("/login")
-                .usernameParameter("email")
+                .usernameParameter("email") // Spring Security 에서 사용되는 username(key) 는 현재 어플리케이션에서는 email 로 사용할 것임
                 .defaultSuccessUrl("/")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
@@ -100,7 +97,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsServiceBean() throws Exception {
         //return super.userDetailsServiceBean();
 
-        // username 에는 email 이 담겨있을꺼라고 일단 추축. 확인 필요
         return (email) -> {
 
             log.debug("loadUserByUsername : email : " + email);
