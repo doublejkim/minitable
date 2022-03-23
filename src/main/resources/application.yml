@@ -1,5 +1,6 @@
 debug: true
 
+
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/minitable
@@ -16,3 +17,8 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   #org.hibernate.type: trace
+
+server:
+  error:
+    whitelabel:
+      enabled: false
