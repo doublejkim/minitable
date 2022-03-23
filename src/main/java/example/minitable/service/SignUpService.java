@@ -47,12 +47,12 @@ public class SignUpService {
         userDto.setAuthority("ROLE_STORE_OWNER");
         User registeredUser =  signup(userDto);
 
-        // 2) Random_Register Random No 등록 여부 확인하고 등록되지 않은 값이라면 다음단계
+        // 2) Random_Register Random No 등록 여부 확인하고 등록되지 않은 값이라면 다음단계 (임시로직)
         int cnt = 0;
         int tmpNo = 0;
         for (cnt = 1; cnt <= 100; cnt++) {  // 임시로 100번만 시도함
 
-            tmpNo = (int) (Math.random() * 10000);
+            tmpNo = (int) (Math.random() * 10_000);
 
             RandomRegister findRandomRegister = randomRegisterRepository.findByRandomNo(tmpNo);
 
@@ -61,7 +61,7 @@ public class SignUpService {
             }
         }
 
-        if(cnt==100) {
+        if(cnt>=100) {
             throw new IllegalStateException("Random No 생성시 최대 횟수 도달");
         }
 
