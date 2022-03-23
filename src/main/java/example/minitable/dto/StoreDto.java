@@ -5,6 +5,9 @@ import example.minitable.domain.store.Restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class StoreDto {
 
@@ -24,6 +27,8 @@ public class StoreDto {
     private String endBreaktime;
     private String pestControlYn;
     private String lastPestControlDate;
+
+    private List<MenuDto> menus = new ArrayList<>();
 
     @QueryProjection
     public StoreDto(Long storeId, String storeName, String address, String phone, String startTime, String endTime,
