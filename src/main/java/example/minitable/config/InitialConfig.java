@@ -1,7 +1,9 @@
 package example.minitable.config;
 
 import example.minitable.dto.SignUpStoreOwnerRequest;
+import example.minitable.dto.StoreDto;
 import example.minitable.repository.RandomRegisterRepository;
+import example.minitable.service.RestaurantService;
 import example.minitable.service.SignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +18,10 @@ public class InitialConfig {
 
     private final RandomRegisterRepository randomRegisterRepository;
     private final SignUpService signUpService;
+    private final RestaurantService restaurantService;
 
     //@Bean
-    public void init() {
+    public void initStore() {
 
         List<String> namePrefixList
                 = List.of(
@@ -84,6 +87,14 @@ public class InitialConfig {
 
             signUpService.signupStoreOwner(req);
         }
+
+    }
+
+    //@Bean
+    public void initMenu() {
+        // Store(Restaurant) 가 미리 등록되어 있어야함
+
+        restaurantService.initMenuRandom();
 
     }
 }
