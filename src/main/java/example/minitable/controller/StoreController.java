@@ -55,14 +55,15 @@ public class StoreController {
     }
 
     @GetMapping("stores/{storeId}")
-    public ModelAndView getStore(@PathVariable String storeId) {
+    public ModelAndView getStore(@PathVariable Long storeId) {
         log.info("  >>> GET getStore() called!!!!!!!!!, storeId : " + storeId);
         //return "store1 - detail";  // 전달받은 storeId 를 기준으로 store 상세 정보 조회
         Map<String, Object> map = new HashMap<>();
 
 
+        StoreDto storeDto = restaurantService.getStore(storeId);
 
-
+        map.put("store", storeDto);
 
         return new ModelAndView("stores/details", map);
     }

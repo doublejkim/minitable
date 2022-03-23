@@ -9,12 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @Slf4j
 public class ApiStoreController {
 
@@ -33,9 +38,12 @@ public class ApiStoreController {
     }
 
     @GetMapping("/api/stores/{storeId}")
-    public String getStore(@PathVariable String storeId) {
+    public ApiDataResponse<StoreDto> getStore(@PathVariable Long storeId) {
         log.info("  >>> GET getStore() called!!!!!!!!!, storeId : " + storeId);
-        return "store1 - detail";  // 전달받은 storeId 를 기준으로 store 상세 정보 조회
+
+        StoreDto storeDto = restaurantService.getStore(storeId);
+
+        return ApiDataResponse.of(storeDto);  // 전달받은 storeId 를 기준으로 store 상세 정보 조회
     }
 
     @PutMapping("/api/stores/{storeId}")
