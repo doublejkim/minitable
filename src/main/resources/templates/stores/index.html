@@ -4,16 +4,122 @@
         xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <head th:insert="fragments.html::header"></head>
 </head>
 <body>
 <header th:insert="fragments.html::nav"></header>
 <!-- customer user만 접근할 수 있는 페이지 -->
-<div class="container">
-  <h1>가게 조회 페이지 </h1>
+<div class="space-y-4 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+
+  <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+    <span id="eventsTitle">업체 목록 조회</span>
+  </h2>
+
+  <!-- table start -->
+  <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+    <table id="eventsTable" class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">업체명</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">업체주소</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">전화번호</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">영업시작</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">영업종료</th>
+
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">예약종료여부</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">평점</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">휴식시작</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">휴식종료</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">방역여부</th>
+
+        <th scope="col" class="relative px-6 py-3"><span class="sr-only">상세</span></th>
+      </tr>
+      </thead>
+
+      <tbody class="bg-white divide-y divide-gray-200" >
+      <tr  th:each="store : ${stores}">
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.storeName}">테스트업체명</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.address}">주소</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.phone}">전화번호</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.startTime}">테스트영업시작</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.endTime}">테스트영엽종료</td>
+        <!--
+        <td class="px-6 py-4 whitespace-nowrap">
+          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">OPENED</span>
+        </td>
+        -->
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.bookingLimitYn}">테스트예약종료여부</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.starAvg}">테스트평점</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.startBreaktime}">테스트휴식시작</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.endBreaktime}">테스트휴식종료</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${store.pestControlYn}">테스트방역여부</td>
+
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <a class="text-indigo-600 hover:text-indigo-900" th:text="상세" th:href="@{'/stores/' + ${store.storeId}}">상세</a>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+  <!-- table end -->
+
+  <!-- -->
+
+  <!--
+    <div class="flex-1 flex justify-between sm:hidden">
+      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Previous </a>
+      <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Next </a>
+    </div>  -->
+
+  <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+
+    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+      <div>
+        <p class="text-sm text-gray-700">
+          Showing
+          <span class="font-medium">1</span>
+          to
+          <span class="font-medium" th:text="${stores.totalPages}">10</span>
+          of
+          <span class="font-medium" th:text="${stores.totalElements}">97</span>
+          results
+        </p>
+      </div>
+    </div>
+
+    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px align-middle" aria-label="Pagination">
+
+      <a th:href="${stores.first} ? '#' : @{/stores(page=${stores.number})}"  class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+        <span class="sr-only">Previous</span>
+        <!-- Heroicon name: solid/chevron-left -->
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+      </a>
+
+      <div th:each="page: ${#numbers.sequence(1, stores.totalPages)}" th:class="${page == stores.number + 1} ? 'active'">
+        <div th:if="${page == stores.number+1}">
+          <a th:text="${page}" th:href="@{/stores(page=${page})}" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 0 </a>
+        </div>
+        <div th:unless="${page == stores.number+1}">
+          <a th:text="${page}" th:href="@{/stores(page=${page})}" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 0 </a>
+        </div>
+      </div>
+
+      <a th:href="${stores.last} ? '#' : @{/stores(page=${stores.totalPages})}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+        <span class="sr-only">Next</span>
+        <!-- Heroicon name: solid/chevron-right -->
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </a>
+
+    </nav>
+  </div>
 
 </div>
 </body>
