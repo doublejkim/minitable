@@ -1,5 +1,6 @@
 package example.minitable.domain.store;
 
+import example.minitable.domain.Menu;
 import example.minitable.domain.RandomRegister;
 import example.minitable.domain.User;
 import lombok.AccessLevel;
@@ -11,6 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,6 +33,11 @@ public class Store {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "store")
+    private List<Menu> menus;
+
+    // TODO : Convenience 데이터를 만들때 관계 기술 필요 (현재는 skip)
 
     private String storeName;
     private String address;
@@ -52,6 +60,7 @@ public class Store {
         this.bookingLimitYn = "N";
         this.starAvg = 0.0;
         this.randomNo =  null;  // 임의의 문자열 등록 필요
+        this.menus = new ArrayList<>();
     }
 
     public void setRandomNo(String randomNo) {

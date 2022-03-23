@@ -48,13 +48,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // authorization
         http.authorizeRequests()
                 // /와 /home은 모두에게 허용
-                .antMatchers("/", "/home", "/signup", "/signup-store-owner").permitAll()
+                .antMatchers("/", "/home", "/signup", "/signup-store-owner", "/error").permitAll()
                 // hello 페이지는 USER 롤을 가진 유저에게만 허용
                 //.antMatchers("/note").hasRole("USER")
                 //.antMatchers("/admin").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.POST, "/notice").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.DELETE, "/notice").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                //.anyRequest().authenticated();
+                        .anyRequest().permitAll();  // test 용
 
         // login
         http.formLogin()
