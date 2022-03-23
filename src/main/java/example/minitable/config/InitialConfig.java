@@ -34,8 +34,47 @@ public class InitialConfig {
 
         List<String> addressList
                 = List.of(
-                        "서울", "부산", "대구", "전주", "광주", "일산", "수원", "제주", "강릉", "대전",
-                        "거제", "포항", "삼척", "파주", "횡성", "서귀포", "울진", "인천", "충주", "여수");
+                        "강원 원주시 개운동",
+                "강원 원주시 단구동",
+                "강원 춘천지 운교동",
+                "강원 춘천시 후평동",
+                "경기 고양시 일산동구 장항동",
+                "경기 광명시 광명3동",
+                "경기 군포시 산본동",
+                "경기 부천시 원미구 도당동",
+                "경기 부천시 원미구 상동",
+                "경기 성남시 분당구 구미동",
+                "경기 성남시 분당구 수내동",
+                "경기 수원시 영통구 매탄동",
+                "경기 시흥시 대야동",
+                "경기 안산시 단원구 고잔동",
+                "경기 안산시 상록구 본오동",
+                "경기 안산시 동안구 비산동",
+                "경기 안산시 만안구 안양동",
+                "경기 의정부시 의정부1동천",
+                "경기 평택시 평택동",
+                "경남 거제시 고현동",
+                "경남 양산시 중부동",
+                "경남 진주시 대안동",
+                "경북 구미시 원편동",
+                "서울시 강남구 신사동",
+                "서울시 강남구 역삼1동",
+                "서울시 강서구 화곡동",
+                "서울시 관악구 신림동",
+                "서울시 동대문구 청량리동",
+                "서울시 마포구 서교동",
+                "서울시 영등포구 당산동5가",
+                "서울시 은평구 불광동",
+                "인천 남구 용현5동",
+                "인천 연수구 송도동",
+                "전남 순천시 연향동",
+                "전북 익산시 영등동",
+                "전남 목포시 상동",
+                "전북 전주시 완산구 평화동1가",
+                "제주 제주시 이도1동",
+                "충남 당진군 당진읍",
+                "충남 서산시 동문동"
+                );
 
         List<String> startTimeList = List.of("07", "08", "09", "10", "11", "12", "13", "14");
         List<String> endTimeList = List.of("20", "21", "22", "23", "24", "25");
@@ -56,12 +95,12 @@ public class InitialConfig {
             String preName = namePrefixList.get(prefixIdx);
             String postName = namePostfixList.get(postfixIdx);
 
-            String storeName = preName + postName + i;
+            String storeName = preName + postName + " " + i;
 
             int addressIdx = (int)(Math.random() * addressList.size());
             String address = addressList.get(addressIdx);
 
-            String phone = "" + String.format("%04d", i) + String.format("%04d", i);
+            String phone = "" + String.format("%04d", i) + "-" + String.format("%04d", i);
 
             int starTimeIdx = (int)(Math.random() * startTimeList.size());
             String startTime = startTimeList.get(starTimeIdx);
@@ -94,7 +133,9 @@ public class InitialConfig {
     public void initMenu() {
         // Store(Restaurant) 가 미리 등록되어 있어야함
 
-        restaurantService.initMenuRandom();
+
+        for(int i=0; i<1; i++)
+            restaurantService.initMenuRandom();
 
     }
 }
