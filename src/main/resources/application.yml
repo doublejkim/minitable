@@ -16,6 +16,7 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+  example.minitable: debug
   #org.hibernate.type: trace
 
 server:
