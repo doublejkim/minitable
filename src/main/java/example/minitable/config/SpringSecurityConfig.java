@@ -1,6 +1,9 @@
 package example.minitable.config;
 
 import example.minitable.domain.User;
+import example.minitable.jwt.JwtAuthenticationFilter;
+import example.minitable.jwt.JwtAuthorizationFilter;
+import example.minitable.repository.UserRepository;
 import example.minitable.service.SignUpService;
 import example.minitable.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,16 +11,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.ServletException;
@@ -32,6 +39,7 @@ import java.io.IOException;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,8 +50,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
 
         // Csrf Attack 을 막기위한 Csrf Filter 적용
-        http.csrf();
+        http.csrf().disable();
 
+        // jwt 를 사용한다면 session 이 필요 없기 때문에  stateless 하도록 설정해야함
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // jwt filter
+        http.addFilterBefore(
+                new JwtAuthenticationFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class
+        ).addFilterBefore(
+                new JwtAuthorizationFilter(userRepository),
+                BasicAuthenticationFilter.class
+        );
 
         // authorization
         http.authorizeRequests()
@@ -54,7 +73,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/admin").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.POST, "/notice").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.DELETE, "/notice").hasRole("ADMIN")
-                //.anyRequest().authenticated();
+                //  .anyRequest().authenticated();
                         .anyRequest().permitAll();  // test 용
 
         // login
