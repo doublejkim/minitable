@@ -25,8 +25,8 @@ class SignUpServiceTest {
         //given
 
         UserDto dto = new UserDto(
-                "abc@test.com",
-                "abc123",
+                "zzz@test.com",
+                "zzz",
                 "김철수",
                 null,
                 "Man",
