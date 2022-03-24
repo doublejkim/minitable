@@ -10,10 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -37,6 +34,12 @@ public class StoreController {
     private final RestaurantService restaurantService;
 
 
+    @PostMapping("/stores")
+    public String postStores() {
+
+        return "postStores Test";
+    }
+
     @GetMapping("/stores")
     public ModelAndView getStores(StoreSearchCondition searchCondition, Pageable pageable) {
         log.info("  >>> GET getStores() called!!!!!!!!!");
@@ -45,7 +48,7 @@ public class StoreController {
         int page = (pageable.getPageNumber() ==0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10); // @@@
 
-        // TODO : 1) 컨트롤러개발 : 전체 업체 조회
+        // 1) 컨트롤러개발 : 전체 업체 조회
         Page<StoreDto> resultPage  = restaurantService.getStores(searchCondition, pageable);
 
         map.put("stores", resultPage);
@@ -54,16 +57,18 @@ public class StoreController {
         return new ModelAndView("stores/index", map);
     }
 
-    @GetMapping("stores/{storeId}")
+    @GetMapping("/stores/{storeId}")
     public ModelAndView getStore(@PathVariable Long storeId) {
         log.info("  >>> GET getStore() called!!!!!!!!!, storeId : " + storeId);
         //return "store1 - detail";  // 전달받은 storeId 를 기준으로 store 상세 정보 조회
         Map<String, Object> map = new HashMap<>();
 
-
+        // 식당 상세 조회
         StoreDto storeDto = restaurantService.getStore(storeId);
-
         map.put("store", storeDto);
+
+        //유저 예약 여부 조회. user_id, store_id, criterion_date.
+
 
         return new ModelAndView("stores/details", map);
     }
