@@ -50,10 +50,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
 
         // Csrf Attack 을 막기위한 Csrf Filter 적용
+        //http.csrf();
         http.csrf().disable();
 
         // jwt 를 사용한다면 session 이 필요 없기 때문에  stateless 하도록 설정해야함
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        /*http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // jwt filter
         http.addFilterBefore(
@@ -62,7 +63,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         ).addFilterBefore(
                 new JwtAuthorizationFilter(userRepository),
                 BasicAuthenticationFilter.class
-        );
+        );*/
 
         // authorization
         http.authorizeRequests()
