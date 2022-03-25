@@ -2,6 +2,7 @@ package example.minitable.controller;
 
 import example.minitable.dto.StoreDto;
 import example.minitable.dto.condition.StoreSearchCondition;
+import example.minitable.service.BookingService;
 import example.minitable.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class StoreController {
 
     private final RestaurantService restaurantService;
+    private final BookingService bookingService;
 
 
     @PostMapping("/stores")
@@ -43,7 +45,7 @@ public class StoreController {
     @GetMapping("/stores")
     public ModelAndView getStores(StoreSearchCondition searchCondition, Pageable pageable) {
         log.info("  >>> GET getStores() called!!!!!!!!!");
-        Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
 
         int page = (pageable.getPageNumber() ==0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10); // @@@
@@ -68,6 +70,10 @@ public class StoreController {
         map.put("store", storeDto);
 
         //유저 예약 여부 조회. user_id, store_id, criterion_date.
+        boolean isExistBookingInfo = bookingService.existBookingInfo(storeId);
+
+        map.put("isExistBookingInfo", isExistBookingInfo);
+
 
 
         return new ModelAndView("stores/details", map);
