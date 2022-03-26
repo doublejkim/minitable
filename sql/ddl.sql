@@ -63,7 +63,7 @@ create table booking (
                          booking_id          bigint not null auto_increment,
                          user_Id         bigint not null,
                          store_id            bigint not null,
-                         criterion_date      varchar(8) not null,
+                         criterion_date      varchar(10) not null,
                          complete_yn         varchar(1) not null,
                          forced_canceled_yn  varchar(1) not null,
                          call_count          int not null,
@@ -71,8 +71,8 @@ create table booking (
                          modified_at         timestamp,
                          PRIMARY KEY pk_booking (booking_id),
                          FOREIGN KEY fk_booking_01 (user_Id) REFERENCES user (user_Id),
-                         FOREIGN KEY fk_booking_02 (store_id) REFERENCES store (store_id),
-                         UNIQUE KEY uk_booking_01 (user_Id, store_id, criterion_date)
+                         FOREIGN KEY fk_booking_02 (store_id) REFERENCES store (store_id)
+              --           UNIQUE KEY uk_booking_01 (user_Id, store_id, criterion_date)
 );
 
 create table review (
