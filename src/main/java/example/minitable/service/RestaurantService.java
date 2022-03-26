@@ -77,9 +77,6 @@ public class RestaurantService {
         int cnt = 0;
         for(Restaurant restaurant : restaurantList) {
 
-            if(cnt>=50) {
-                break;
-            }
 
             int prefixMenuIdx = (int)(Math.random() * prefixMenu.size());
             int postfixMenuIdx = (int)(Math.random() * postfixMenu.size());
