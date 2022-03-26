@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/minitable
     driver-class-name: org.mariadb.jdbc.Driver
-    username: dbuser   # 암호화 하거나 다른데서 주입되도록 변경 필요
+    username: dbuser
     password: dbuser123
   jpa:
     properties:
@@ -13,11 +13,26 @@ spring:
         #show_sql: true
         format_sql: true
         use_sql_comments: true  # Querydsl 사용할경우 jpql 을 확인하고싶을경우 주석으로 볼수있음
+  mail:
+    host: smtp.gmail.com # SMTP 서버 호스트
+    port: 587 # SMTP 서버 포트
+    username:  # SMTP 서버 로그인 아이디 (발신자)
+    password:  # SMTP 서버 로그인 패스워드 (앱 비밀번호)
+    properties:
+      mail:
+        smtp:
+          auth: true # 사용자 인증 시도 여부 (기본값 : false)
+          timeout: 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
+          starttls:
+            enable: true # StartTLS 활성화 여부 (기본값 : false)
+
 
 logging.level:
   org.hibernate.SQL: debug
   example.minitable: debug
   #org.hibernate.type: trace
+
+
 
 server:
   error:
