@@ -44,6 +44,18 @@ public class Booking {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    public void setCompleteYn(String completeYn) {
+        this.completeYn = completeYn;
+    }
+
+    public void setForcedCanceledYn(String forcedCanceledYn) {
+        this.forcedCanceledYn = forcedCanceledYn;
+    }
+
+    public void setCallCount(int callCount) {
+        this.callCount = callCount;
+    }
+
     public Booking(User user, Store store, String criterionDate) {
 
         this.user = user;

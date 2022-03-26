@@ -2,6 +2,7 @@ package example.minitable.controller.api;
 
 import example.minitable.dto.ApiDataResponse;
 import example.minitable.dto.BookingDto;
+import example.minitable.dto.SeatDto;
 import example.minitable.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,9 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -49,6 +48,18 @@ public class ApiBookingController {
         Page<BookingDto> resultPage = bookingService.getBookingListWithStoreOwnerEmail(email, pageable);
 
         return ApiDataResponse.of(resultPage);
+
+    }
+
+    @PostMapping("/api/booking/seatcustomer")
+    public ApiDataResponse<SeatDto> seatCustomer(
+            @NotEmpty String userEmail,
+            @NotEmpty String criterionDate
+    ) {
+
+        SeatDto resultDto = bookingService.seatCustomer(userEmail, criterionDate);
+
+        return ApiDataResponse.of(resultDto);
 
     }
 }

@@ -2,7 +2,9 @@ package example.minitable.controller;
 
 import example.minitable.dto.BookingDto;
 import example.minitable.dto.BookingRequest;
+import example.minitable.dto.SeatDto;
 import example.minitable.service.BookingService;
+import example.minitable.service.CallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +29,7 @@ import java.util.Map;
 public class BookingController {
 
     private final BookingService bookingService;
+    private final CallService callService;
 
 
     @GetMapping("/booking")
@@ -66,5 +70,27 @@ public class BookingController {
         map.put("bookinglist", resultPage);
 
         return new ModelAndView("booking/index", map);
+    }
+
+    @PostMapping("/booking/seatcustomer")
+    public String seatCustomer(
+            @NotEmpty String userEmail,
+            @NotEmpty String criterionDate
+    ) {
+        SeatDto resultDto = bookingService.seatCustomer(userEmail, criterionDate);
+
+        return "redirect:/bookinglist";
+    }
+
+    @PostMapping("/booking/callcustomer")
+    public String callCustomer(
+            @NotEmpty String userEmail
+    ) {
+
+        System.out.println("    >>> ######################################## callCustomer start. meail : " + userEmail);
+        boolean result = callService.callToCustomer(userEmail);
+
+        System.out.println("    >>> ######################################## callCustomer end. result : " + result);
+        return "redirect:/bookinglist";
     }
 }

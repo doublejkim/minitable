@@ -22,8 +22,8 @@ public class SignUpStoreOwnerRequest {
     private String phone;
     private String startTime;
     private String endTime;
-    private String startBreaktime;
-    private String endBreaktime;
+    private String startBreakTime;
+    private String endBreakTime;
     private String pestControlYn;
     private String lastPestControlDate;
 

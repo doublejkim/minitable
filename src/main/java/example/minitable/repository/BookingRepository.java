@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long>, BookingRepositoryCustom {
 
-    Optional<Booking> findByUserAndStoreAndCriterionDate(User user, Store store, String criterionDate);
+    Optional<Booking> findByUserAndStoreAndCriterionDateAndCompleteYn(User user, Store store, String criterionDate, String completeYn);
 
     Page<Booking> findByStoreAndCriterionDate(Store store, String criterionDate, Pageable pageable);
 

@@ -19,15 +19,19 @@ public class Restaurant extends Store{
     private String pestControlYn;
     private String lastPestControlDate;
 
+    @Override
+    public void setRandomNo(String randomNo) {
+        super.setRandomNo(randomNo);
+    }
 
     public Restaurant(User user, String storeName, String address, String phone, String startTime, String endTime,
-                      String startBreaktime, String endBreaktime, String pestControlYn, String lastPestControlDate) {
+                      String startBreakTime, String endBreakTime, String pestControlYn, String lastPestControlDate) {
 
 
         super(user, storeName, address, phone, startTime, endTime);
 
-        this.startBreaktime = startBreaktime;
-        this.endBreaktime = endBreaktime;
+        this.startBreaktime = startBreakTime;
+        this.endBreaktime = endBreakTime;
         this.pestControlYn = pestControlYn;
         this.lastPestControlDate = lastPestControlDate;
 
@@ -41,8 +45,8 @@ public class Restaurant extends Store{
                 dto.getPhone(),
                 dto.getStartTime(),
                 dto.getEndTime(),
-                dto.getStartBreaktime(),
-                dto.getEndBreaktime(),
+                dto.getStartBreakTime(),
+                dto.getEndBreakTime(),
                 dto.getPestControlYn(),
                 dto.getLastPestControlDate()
         );
