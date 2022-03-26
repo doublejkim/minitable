@@ -155,11 +155,18 @@
 
           <p>
             <label for="randomNo" class="sr-only">RandomNo</label>
-            <input type="text" id="randomNo" name="randomNo" class="form-control w-full border border-gray-200" placeholder="업체 고유 번호" required autofocus>
+            <input type="text" id="randomNo" name="randomNo" class="form-control w-full border border-gray-200" placeholder="업체 고유 번호" th:disabled="${isExistBookingInfo}" required autofocus>
           </p>
 
 
-          <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">예 약 하 기</button>
+          <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:disabled="${isExistBookingInfo}">예 약 하 기</button>
+
+          <div class="mt-4" th:if="${isExistBookingInfo==true}">
+            <ul role="list" class="pl-4 list-disc text-sm space-y-2">
+              <li class="text-gray-400"><span class="text-gray-600">예약 진행 중 입니다.</span></li>
+            </ul>
+          </div>
+
         </form>
       </div>
 

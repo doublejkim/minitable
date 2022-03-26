@@ -15,7 +15,7 @@
 <div class="space-y-4 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-        <span id="eventsTitle">우리 점포 예약 조회</span>
+        <span id="eventsTitle">Store Booking List</span>
     </h2>
 
     <!-- table start -->
@@ -23,16 +23,16 @@
         <table id="bookingTable" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">예약번호</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">고객 이메일</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">고객 성명</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">예약기준날짜</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">고객 예약 시간</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Criterion Date</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Time</th>
 
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">고객 호출 횟수</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Call Count</th>
 
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">착석</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">호출</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Seat</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Call</th>
             </tr>
             </thead>
 
@@ -45,12 +45,24 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.createdAt}">고객 예약 시간</td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.callCount}">고객 호출 횟수</td>
-
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a class="text-indigo-600 hover:text-indigo-900" th:text="착석하기" th:href="@{'/booking'}">상세</a>
+                    <!--<a class="text-indigo-600 hover:text-indigo-900" th:text="착석하기" th:href="@{'/booking'}">상세</a> -->
+                    <form  method="POST" th:action="@{/booking/seatcustomer}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
+                        <input class="sr-only" type="hidden" id="userEmail" name="userEmail"  th:value="${booking.userEmail}"/>
+                        <input class="sr-only" type="hidden" id="criterionDate" name="criterionDate"  th:value="${booking.criterionDate}"/>
+                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Hava a seat
+                        </button>
+                    </form>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a class="text-indigo-600 hover:text-indigo-900" th:text="호출하기" th:href="@{/booking}">상세</a>
+                    <!--<a class="text-indigo-600 hover:text-indigo-900" th:text="호출하기" th:href="@{/booking}">상세</a>-->
+                    <form  method="POST" th:action="@{/booking/callcustomer}">
+                        <input class="sr-only" type="hidden" id="userEmail" name="userEmail"  th:value="${booking.userEmail}"/>
+                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Call
+                        </button>
+                    </form>
                 </td>
             </tr>
             </tbody>
