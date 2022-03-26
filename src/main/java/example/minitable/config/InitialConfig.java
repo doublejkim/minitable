@@ -20,6 +20,9 @@ public class InitialConfig {
     private final SignUpService signUpService;
     private final RestaurantService restaurantService;
 
+    /*
+    테스트용 더미데이터등록을 위한 빈 메소드. 어플리케이션 최초 1번만 실행후 Bean으로 등록되지 않게 해야함
+     */
     //@Bean
     public void initStore() {
 
@@ -100,7 +103,7 @@ public class InitialConfig {
             int addressIdx = (int)(Math.random() * addressList.size());
             String address = addressList.get(addressIdx);
 
-            String phone = "" + String.format("%04d", i) + "-" + String.format("%04d", i);
+            String phone = getRegionNum(address) + String.format("%04d", i) + "-" + String.format("%04d", i);
 
             int starTimeIdx = (int)(Math.random() * startTimeList.size());
             String startTime = startTimeList.get(starTimeIdx);
@@ -127,15 +130,58 @@ public class InitialConfig {
             signUpService.signupStoreOwner(req);
         }
 
+        // Restaurant  등록후, 메뉴 정보 등록
+        initMenu();
     }
 
-    //@Bean
+
     public void initMenu() {
+
         // Store(Restaurant) 가 미리 등록되어 있어야함
-
-
-        for(int i=0; i<1; i++)
+        for(int i=0; i<5; i++)
             restaurantService.initMenuRandom();
+
+    }
+
+    private String getRegionNum(String address) {
+
+        address = address.trim();
+
+        if(address.startsWith("서울")) {
+            return "02-";
+        } else if(address.startsWith("인천")) {
+            return "032-";
+        } else if(address.startsWith("세종")) {
+            return "044-";
+        } else if(address.startsWith("대전")) {
+            return "042-";
+        } else if (address.startsWith("대구")) {
+            return "053-";
+        } else if (address.startsWith("울산")) {
+            return "052-";
+        } else if (address.startsWith("부산")) {
+            return "051-";
+        } else if (address.startsWith("광주")) {
+            return "062-";
+        } else if (address.startsWith("경기")) {
+            return "032-";
+        } else if (address.startsWith("강원")) {
+            return "033-";
+        } else if (address.startsWith("충북")) {
+            return "043-";
+        } else if (address.startsWith("충남")) {
+            return "041-";
+        } else if (address.startsWith("경북")) {
+            return "054-";
+        } else if (address.startsWith("전북")) {
+            return "063-";
+        } else if (address.startsWith("경남")) {
+            return "061-";
+        } else if (address.startsWith("제주")) {
+            return "064-";
+        } else {
+            return "000-";
+        }
 
     }
 }
