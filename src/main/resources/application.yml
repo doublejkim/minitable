@@ -1,5 +1,6 @@
 debug: true
 
+file.dir: /Users/doublejkim/filestore_temp
 
 spring:
   datasource:
@@ -25,6 +26,12 @@ spring:
           timeout: 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
           starttls:
             enable: true # StartTLS 활성화 여부 (기본값 : false)
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 7MB
 
 
 logging.level:
