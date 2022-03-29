@@ -159,11 +159,11 @@
           </p>
 
 
-          <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:disabled="${isExistBookingInfo}">예 약 하 기</button>
+          <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:disabled="${isExistBookingInfo}">Booking</button>
 
           <div class="mt-4" th:if="${isExistBookingInfo==true}">
             <ul role="list" class="pl-4 list-disc text-sm space-y-2">
-              <li class="text-gray-400"><span class="text-gray-600">예약 진행 중 입니다.</span></li>
+              <li class="text-gray-400"><span class="text-gray-600">You made a booking.</span></li>
             </ul>
           </div>
 

@@ -1,6 +1,7 @@
 package example.minitable.domain;
 
 import example.minitable.domain.store.Store;
+import example.minitable.dto.file.UploadFileDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,20 +37,35 @@ public class ReviewFileStore {
 
     private String virtualfileName;
 
+    private String ext;
+
     private String removeYn;
+
+    public ReviewFileStore(User user, Review review, UploadFileDto uploadFileDto) {
+        changeUser(user);
+        changeReview(review);
+        this.realfileName = uploadFileDto.getRealfileName();
+        this.virtualfileName = uploadFileDto.getVirtualfileName();
+        this.ext = uploadFileDto.getExt();
+        this.removeYn = "N";
+    }
 
     public void changeUser(User user) {
         if(user!=null) {
             this.user = user;
-            this.user.getReviewFileStores().add(this);
+            //this.user.getReviewFileStores().add(this);
         }
     }
 
     public void changeReview(Review review) {
         if(review!=null) {
             this.review = review;
-            this.review.setReviewFileStore(this);
+            //this.review.setReviewFileStore(this);
         }
+    }
+
+    public void setRemoveYn(String removeYn) {
+        this.removeYn = removeYn;
     }
 
     @CreatedDate

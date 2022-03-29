@@ -67,9 +67,10 @@
                             <p class="mt-2 text-sm text-gray-500">Please write down your honest feedback. Thank you. </p>
                         </div>
 
+                        <!-- 현재 테스트용 프로젝트에서는 평점을 수정하지 못함을 가정함. 임시로 리뷰 등록할때마다 계산되게 했으므로. 실제로 배치돌릴땐 상관없을듯 -->
                         <div class="col-span-6 sm:col-span-3">
                             <label for="star" class="block text-sm font-medium text-gray-700">Star Points</label>
-                            <select id="star" name="star" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="star" name="star" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
                                 <option value="5" th:selected="${myreview.star}==5" selected>5</option>
                                 <option value="4" th:selected="${myreview.star}==4">4</option>
                                 <option value="3" th:selected="${myreview.star}==3">3</option>

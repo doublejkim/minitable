@@ -56,6 +56,7 @@ public class ReviewController {
 
         if(reviewRequest.getAttachFile()!=null && !reviewRequest.getAttachFile().isEmpty()) {
             log.debug("original File Name : " + reviewRequest.getAttachFile().getOriginalFilename());
+            log.debug("getName : " + reviewRequest.getAttachFile().getName());
         }
 
         boolean result = reviewService.createReviewDo(reviewRequest);

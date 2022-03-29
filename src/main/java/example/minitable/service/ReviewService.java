@@ -3,27 +3,38 @@ package example.minitable.service;
 import example.minitable.constant.ErrorCode;
 import example.minitable.domain.Booking;
 import example.minitable.domain.Review;
+import example.minitable.domain.ReviewFileStore;
 import example.minitable.domain.User;
 import example.minitable.domain.store.Restaurant;
 import example.minitable.dto.ReviewRequest;
 import example.minitable.dto.ReviewResponse;
+import example.minitable.dto.file.UploadFileDto;
 import example.minitable.exception.GeneralException;
 import example.minitable.repository.BookingRepository;
 import example.minitable.repository.RestaurantRepository;
+import example.minitable.repository.ReviewFileStoreRepository;
 import example.minitable.repository.ReviewRepository;
+import example.minitable.util.FileUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewService {
 
     private final RestaurantRepository restaurantRepository;
     private final BookingRepository bookingRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewFileStoreRepository reviewFileStoreRepository;
+
+    private final FileUtil fileUtil;
 
     @Transactional
     public boolean createReviewDo(ReviewRequest reviewRequest) {
@@ -46,6 +57,20 @@ public class ReviewService {
 
         Review review = new Review(user, booking, restaurant, reviewRequest);
         reviewRepository.save(review);
+
+        UploadFileDto uploadFileDto = null;
+        try {
+
+            uploadFileDto = fileUtil.storeFile(reviewRequest.getAttachFile());
+
+        } catch (IOException e) {
+
+            log.error("파일저장시 IOException 발생 : {}", e.getMessage());
+            throw new GeneralException(ErrorCode.INTERNAL_ERROR);
+        }
+
+        ReviewFileStore reviewFileStore = new ReviewFileStore(user, review, uploadFileDto);
+        reviewFileStoreRepository.save(reviewFileStore);
 
         return true;
     }
