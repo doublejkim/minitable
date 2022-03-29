@@ -96,21 +96,19 @@ create table review (
                         INDEX idx_review_03 (created_at)
 );
 
-create table file_store (
-        fs_id               bigint not null auto_increment PRIMARY KEY ,
+create table review_file_store (
+        rfs_id               bigint not null auto_increment PRIMARY KEY ,
         user_id             bigint not null,
-        store_id            bigint not null,
         review_id           bigint not null,
         realfile_name       varchar(200),
         virtualfile_name    varchar(200),
         ext                 varchar(10),
+        remove_yn           varchar(1),
         created_at          timestamp,
         modified_at         timestamp,
         FOREIGN KEY         fk_file_store_01 (user_Id ) REFERENCES user (user_Id),
-        FOREIGN KEY         fk_file_store_02 (store_id) REFERENCES store (store_id),
         FOREIGN KEY         fk_file_store_03 (review_id) REFERENCES review (review_id),
         INDEX idx_file_store_01 (user_Id),
-        INDEX idx_file_store_02 (store_id),
         INDEX idx_file_store_03 (review_id),
         INDEX idx_file_store_04 (created_at)
 

@@ -4,7 +4,7 @@ drop table menu;
 
 drop table restaurant;
 
-drop table file_store;
+drop table review_file_store;
 
 drop table review;
 
