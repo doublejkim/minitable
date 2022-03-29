@@ -1,6 +1,6 @@
 debug: true
 
-file.dir: /Users/doublejkim/filestore_temp
+file.dir: /Users/doublejkim/filestore_temp/   # 마지막 슬래시까지 넣어야함
 
 spring:
   datasource:
