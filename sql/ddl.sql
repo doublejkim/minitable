@@ -26,6 +26,7 @@ create table store (
                        dtype               varchar(30) not null,
                        booking_limit_yn    varchar(1) not null,
                        star_avg        double,
+                       review_cnt           int,
                        random_no           varchar(10) not null,
                        created_at      timestamp,
                        modified_at     timestamp,

@@ -51,7 +51,14 @@ public class Store {
 
     private String bookingLimitYn;
     private double starAvg;
+    private int reviewCnt;
     private String randomNo;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
 
     public Store (User user, String storeName, String address, String phone, String startTime, String endTime) {
 
@@ -63,6 +70,7 @@ public class Store {
         this.endTime = endTime;
         this.bookingLimitYn = "N";
         this.starAvg = 0.0;
+        this.reviewCnt = 0;
         this.randomNo =  null;  // 임의의 문자열 등록 필요
         this.menus = new ArrayList<>();
     }
@@ -71,11 +79,12 @@ public class Store {
         this.randomNo = randomNo;
     }
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    // 샘플 프로젝트이므로 실시간 계산. 서비스를 생각한다면 서비스 시간이 아닐때 배치를 돌리는 것도 고려
+    public void calcStarAvg(int star) {
+        double total = this.starAvg * this.reviewCnt;
+        this.reviewCnt++;
+        this.starAvg =  Math.round( ((total + star) / this.reviewCnt) * 10) / 10.0;
+    }
 
 
 }
