@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <head th:insert="fragments.html::header"></head>
+</head>
+<body>
+<header th:insert="fragments.html::nav"></header>
+
+<!-- my booking -->
+
+<div>
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Review</h3>
+                <p class="mt-1 text-sm text-gray-600">Please write review.</p>
+            </div>
+        </div>
+
+        <div class="mt-5 md:mt-0 md:col-span-2">
+
+            <form  method="POST" th:action="@{/review/createReview.do}" enctype="multipart/form-data">
+
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+
+                    <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+
+                        <div>
+                            <label for="reviewTitle" class="block text-sm font-medium text-gray-700"> Review Title </label>
+                            <div class="mt-1">
+                                <textarea id="reviewTitle" name="reviewTitle" rows="1" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Title" required></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="reviewContents" class="block text-sm font-medium text-gray-700"> Review Contents </label>
+                            <div class="mt-1">
+                                <textarea id="reviewContents" name="reviewContents" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Review here" required></textarea>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Please write down your honest feedback. Thank you. </p>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="star" class="block text-sm font-medium text-gray-700">Star Points</label>
+                            <select id="star" name="star" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="5" checked>5</option>
+                                <option value="4">4</option>
+                                <option value="3">3</option>
+                                <option value="2">2</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+
+                            <div class="flex text-sm text-gray-600">
+                                <label for="attachFile" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                    <span>Upload a Image file</span>
+                                    <input id="attachFile" name="attachFile" type="file" class="sr-only">
+                                </label>
+                                <!--<p class="pl-1">.</p>-->
+                            </div>
+                            <p class="flex text-xs text-gray-500">PNG, JPG, GIF up to 3MB</p>
+                        </div>
+
+                    </div>
+
+                    <!-- save 버튼 클릭하면 post 로 작업 수행후 booking list 조회하자 -->
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

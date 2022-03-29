@@ -82,6 +82,7 @@ create table review (
                         booking_id      bigint not null,
                         booking_at      timestamp not null,
                         star            int not null,
+                        review_title    varchar(50),
                         review_text     varchar(300),
                         remove_yn       varchar(1),
                         created_at      timestamp,

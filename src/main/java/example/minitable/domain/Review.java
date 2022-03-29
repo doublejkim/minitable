@@ -39,6 +39,7 @@ public class Review {
     private LocalDateTime bookingAt;
 
     private int start;
+    private String reviewTitle;
     private String reviewText;
     private String removeYn;
 
@@ -48,7 +49,7 @@ public class Review {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    private void addUser(User user) {
+    private void changeUser(User user) {
         this.user = user;
         this.user.getReviews().add(this);
     }
