@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table
@@ -44,6 +46,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user")
     private Store store;
+
+    @OneToMany(mappedBy = "user")
+    List<Review> reviews = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;

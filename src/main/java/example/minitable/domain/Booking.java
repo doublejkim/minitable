@@ -30,6 +30,9 @@ public class Booking {
     @JoinColumn(name="store_id")
     private Store store;
 
+    @OneToOne(mappedBy = "booking")
+    private Review review;
+
     private String criterionDate;
 
     private String completeYn;

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <head th:insert="fragments.html::header"></head>
+</head>
+<body>
+<header th:insert="fragments.html::nav"></header>
+<!-- customer user만 접근할 수 있는 페이지 -->
+<div class="space-y-4 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+        <span id="eventsTitle">My Booking</span>
+    </h2>
+
+    <!-- table start -->
+    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table id="bookingTable" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store Name</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Criterion Date</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Time</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sitting Time</th>
+
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Review</th>
+            </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200" >
+            <tr  th:each="booking : ${bookinglist}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.bookingId}">예약번호</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.storeName}">점포명</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.criterionDate}">예약기준날짜</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.createdAt}">예약시간</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${booking.modifiedAt}">착석시간</td>
+
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+
+                    <div th:if="${booking.isReviewable}">
+
+                        <div th:if="${booking.reviewId==null}">
+                            <form  method="POST" th:action="@{/review/createReview}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
+                                <input class="sr-only" type="hidden" id="storeId" name="storeId"  th:value="${booking.storeId}"/>
+                                <input class="sr-only" type="hidden" id="bookingId" name="bookingId"  th:value="${booking.bookingId}"/>
+                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    New Review
+                                </button>
+                            </form>
+                        </div>
+                        <div th:unless="${booking.reviewId==null}">
+                            <form  method="POST" th:action="@{/review/modifyReview}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
+                                <input class="sr-only" type="hidden" id="reviewId" name="reviewId"  th:value="${booking.reviewId}"/>
+                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Modify Review
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- table end -->
+
+    <!-- -->
+
+    <!--
+      <div class="flex-1 flex justify-between sm:hidden">
+        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Previous </a>
+        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Next </a>
+      </div>  -->
+
+    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700">
+                    Showing
+                    <span class="font-medium">1</span>
+                    to
+                    <span class="font-medium" th:text="${bookinglist.totalPages}">10</span>
+                    of
+                    <span class="font-medium" th:text="${bookinglist.totalElements}">97</span>
+                    results
+                </p>
+            </div>
+        </div>
+
+        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px align-middle" aria-label="Pagination">
+
+            <a th:href="${bookinglist.first} ? '#' : @{/booking/withcustomer(page=${bookinglist.number})}"  class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Previous</span>
+                <!-- Heroicon name: solid/chevron-left -->
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+
+
+            <div th:if="${bookinglist.totalPages>0}" th:each="page: ${#numbers.sequence(1, bookinglist.totalPages)}" th:class="${page == bookinglist.number + 1} ? 'active'">
+                <div th:if="${page == bookinglist.number+1}">
+                    <a th:text="${page}" th:href="@{/booking/withcustomer(page=${page})}" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 0 </a>
+                </div>
+                <div th:unless="${page == bookinglist.number+1}">
+                    <a th:text="${page}" th:href="@{/booking/withcustomer(page=${page})}" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 0 </a>
+                </div>
+            </div>
+
+            <a th:href="${bookinglist.last} ? '#' : @{/booking/withcustomer(page=${bookinglist.totalPages})}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Next</span>
+                <!-- Heroicon name: solid/chevron-right -->
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+
+        </nav>
+    </div>
+
+</div>
+</body>
+</html>

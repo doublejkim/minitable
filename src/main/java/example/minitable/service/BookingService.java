@@ -20,9 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -91,6 +90,53 @@ public class BookingService {
     }
 
     /**
+     * Cusotmer 유저가 , 착석완료된 예약 정보 기준으로 본인의 예약완료 정보를 조회 - Api 호출용
+     *
+     */
+    public Page<BookingDto> getBookingListWithCustomerEmail(String email, Pageable pageable) {
+
+        // CUSTOMER 권한 유저 정보
+        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User customerUser = userRepository.findByEmail(email);
+
+        /*Page<Booking> resultPage = bookingRepository.findByUserAndCompleteYnAndForcedCanceledYn(
+                customerUser,
+                "Y",
+                "N",
+                pageable
+        );*/
+
+        // 현재 날짜 기준으로 30일 이전 기준설정
+        LocalDateTime afterDateTime = LocalDateTime.now().toLocalDate().minusDays(30).atStartOfDay();
+
+        Page<BookingDto> resultPage = bookingRepository.findBookingInfoByCustomerUser(customerUser, afterDateTime, pageable);
+
+        //return resultPage.map(BookingDto::from);
+        return resultPage;
+    }
+
+    /**
+     * Cusotmer 유저가 , 착석완료된 예약 정보 기준으로 본인의 예약완료 정보를 조회
+     *
+     */
+    public Page<BookingDto> getBookingListWithCustomer(Pageable pageable) {
+
+        // CUSTOMER 권한 유저 정보
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // 현재 날짜 기준으로 30일 이전 기준설정
+        LocalDateTime afterDateTime = LocalDateTime.now().toLocalDate().minusDays(30).atStartOfDay();
+
+        Page<BookingDto> resultPage = bookingRepository.findBookingInfoByCustomerUser(
+                user,
+                afterDateTime,
+                pageable
+        );
+
+        return resultPage;
+    }
+
+    /**
      * Store Owner 유저가 예약 현황 정보 획득
      * @param pageable
      * @return 예약정보
@@ -103,7 +149,7 @@ public class BookingService {
         // Store 엔티티에서 해당 유저 소유의 Store 를 획득
         // 위에서 획득한 Store(Restaurant) 정보와 오늘 날짜를 조회 조건으로하여 Booking 정보 조회
 
-        Page<Booking> results = bookingRepository.findBookingListByUser(user, pageable);
+        Page<Booking> results = bookingRepository.findBookingListByOwnerUser(user, pageable);
 
         return results.<BookingDto>map(BookingDto::from);
     }
@@ -125,7 +171,7 @@ public class BookingService {
              throw new GeneralException(ErrorCode.NOT_FOUND);
          }
 
-        Page<Booking> results = bookingRepository.findBookingListByUser(user, pageable);
+        Page<Booking> results = bookingRepository.findBookingListByOwnerUser(user, pageable);
 
         return results.<BookingDto>map(BookingDto::from);
 

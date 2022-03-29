@@ -69,6 +69,11 @@
               >Booking List</a>
 
               <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                 sec:authorize="hasAnyRole('ROLE_CUSTOMER')"
+                 th:href="@{/bookinglist-with-customer}"
+              >My Booking</a>
+
+              <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                  sec:authorize="!isAuthenticated()"
                  th:href="@{/login}"
               >Login</a>
