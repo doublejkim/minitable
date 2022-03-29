@@ -1,6 +1,7 @@
 package example.minitable.controller;
 
 import example.minitable.dto.ReviewRequest;
+import example.minitable.dto.ReviewResponse;
 import example.minitable.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class ReviewController {
         map.put("storeId", storeId);
         map.put("bookingId", bookingId);
 
-        return new ModelAndView("review/createReviewPage", map);
+        return new ModelAndView("/review/reviewPage", map);
     }
 
     /*
@@ -61,4 +62,40 @@ public class ReviewController {
 
         return "redirect:/bookinglist-with-customer";
     }
+
+    /*
+    Customer 고객이 My Booking 화면에서 리뷰 수정 요청
+     */
+    @PostMapping("/review/getMyReview")
+    public ModelAndView modifyReview(
+            Long reviewId
+    ) {
+        log.debug("     >>> ######################################## POST modifyReview() !!!");
+        Map<String, Object> map = new HashMap<>();
+
+        // 차후 필요한 작업이 있으면 여기에 기술
+        //map.put("reviewId", reviewId);
+
+        // TODO : 수정내용 획득필요
+
+        ReviewResponse reviewResponse = reviewService.getMyReview(reviewId);
+
+        map.put("myreview", reviewResponse);
+
+
+        return new ModelAndView("/review/modifyReviewPage", map);
+    }
+
+    @PostMapping("/review/modifyReview.do")
+    public String modifyReviewDo(
+            ReviewRequest reviewRequest
+    ) {
+        log.debug("     >>> ######################################## POST modifyReviewDo() !!!");
+
+        boolean result = reviewService.modifyReviewDo(reviewRequest);
+
+        return "redirect:/bookinglist-with-customer";
+    }
+
+
 }

@@ -46,6 +46,18 @@ public class Review {
     private String reviewText;
     private String removeYn;
 
+    public void setStar(int star) {
+        this.star = star;
+    }
+
+    public void setReviewTitle(String reviewTitle) {
+        this.reviewTitle = reviewTitle;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
     @CreatedDate
     private LocalDateTime createdAt;
 

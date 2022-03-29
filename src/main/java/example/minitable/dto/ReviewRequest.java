@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ReviewRequest {
 
+    private Long reviewId; // 수정할때만 셋팅
     private Long storeId;
     private Long bookingId;
     private String reviewTitle;

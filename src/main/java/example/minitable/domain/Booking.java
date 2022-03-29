@@ -66,14 +66,14 @@ public class Booking {
     public void changeUser(User user) {
         if(user!=null) {
             this.user = user;
-            this.user.getBookingList().add(this);
+         //  this.user.getBookingList().add(this);
         }
     }
 
     public void changeStore(Store store) {
         if(store!=null) {
             this.store = store;
-            this.store.getBookingList().add(this);
+           // this.store.getBookingList().add(this);
         }
     }
 
