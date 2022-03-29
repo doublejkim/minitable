@@ -49,17 +49,13 @@
                             <form  method="POST" th:action="@{/review/createReview}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
                                 <input class="sr-only" type="hidden" id="storeId" name="storeId"  th:value="${booking.storeId}"/>
                                 <input class="sr-only" type="hidden" id="bookingId" name="bookingId"  th:value="${booking.bookingId}"/>
-                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    New Review
-                                </button>
+                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent shadow-sm bg-red-600 font-medium rounded-md text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500g">New Review</button>
                             </form>
                         </div>
                         <div th:unless="${booking.reviewId==null}">
                             <form  method="POST" th:action="@{/review/modifyReview}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
                                 <input class="sr-only" type="hidden" id="reviewId" name="reviewId"  th:value="${booking.reviewId}"/>
-                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Modify Review
-                                </button>
+                                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500g">Edit Review</button>
                             </form>
                         </div>
                     </div>

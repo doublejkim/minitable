@@ -31,6 +31,12 @@
 
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 
+                        <label hidden for="storeId" class="sr-only">User name</label>
+                        <input hidden class="sr-only" id="storeId" name="storeId" type="text" th:value="${storeId}">
+
+                        <label hidden for="bookingId" class="sr-only">User name</label>
+                        <input hidden class="sr-only" id="bookingId" name="bookingId" type="text" th:value="${bookingId}">
+
                         <div>
                             <label for="reviewTitle" class="block text-sm font-medium text-gray-700"> Review Title </label>
                             <div class="mt-1">
