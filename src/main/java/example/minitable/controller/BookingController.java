@@ -56,6 +56,26 @@ public class BookingController {
         return "redirect:home";
     }
 
+    @GetMapping("/bookinglist-with-customer")
+    public ModelAndView getBookingListWithCustomer(Pageable pageable) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        int page = (pageable.getPageNumber() ==0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10); // @@@
+
+        Page<BookingDto> resultPage = bookingService.getBookingListWithCustomer(pageable);
+
+        map.put("bookinglist", resultPage);
+
+        return new ModelAndView("booking/withcustomer", map);
+    }
+
+    /**
+     * Store Owner 유저가 본인 점포 기준으로 등록된 예약 현황 조회 컨트롤러
+     * @param pageable
+     * @return
+     */
     @GetMapping("/bookinglist")
     public ModelAndView getBookingList(Pageable pageable) {
 
@@ -72,6 +92,12 @@ public class BookingController {
         return new ModelAndView("booking/index", map);
     }
 
+    /**
+     * 고객 착석 완료 수행 컨트롤러
+     * @param userEmail
+     * @param criterionDate
+     * @return
+     */
     @PostMapping("/booking/seatcustomer")
     public String seatCustomer(
             @NotEmpty String userEmail,

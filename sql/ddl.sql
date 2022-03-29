@@ -79,6 +79,7 @@ create table review (
                         review_id       bigint not null auto_increment,
                         user_Id     bigint not null,
                         store_id        bigint not null,
+                        booking_id      bigint not null,
                         booking_at      timestamp not null,
                         star            int not null,
                         review_text     varchar(300),
@@ -88,6 +89,7 @@ create table review (
                         PRIMARY KEY pk_review (review_id),
                         FOREIGN KEY fk_review_01 (user_Id) REFERENCES user (user_Id),
                         FOREIGN KEY fk_review_02 (store_id) REFERENCES store (store_id),
+                        FOREIGN KEY fk_review_03 (booking_id) REFERENCES booking (booking_Id),
                         INDEX idx_review_01 (user_Id),
                         INDEX idx_review_02 (store_id),
                         INDEX idx_review_03 (created_at)

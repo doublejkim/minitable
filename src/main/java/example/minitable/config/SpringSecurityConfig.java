@@ -75,7 +75,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers(HttpMethod.POST, "/notice").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.DELETE, "/notice").hasRole("ADMIN")
                 //  .anyRequest().authenticated();
-                        .anyRequest().permitAll();  // test 용
+                //.antMatchers("/bookinglist-with-customer", "/booking/withcustomer").hasRole("CUSTOMER")
+                //.antMatchers("/bookinglist").hasRole("STORE_OWNER")
+                .anyRequest().permitAll();  // test 용
 
         // login
         http.formLogin()

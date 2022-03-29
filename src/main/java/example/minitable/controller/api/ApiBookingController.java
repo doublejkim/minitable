@@ -11,10 +11,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +37,20 @@ public class ApiBookingController {
 
         return ApiDataResponse.of(resultPage);
 
+    }
+
+    @GetMapping("/api/bookinglist-with-customer/{userEmail}")
+    public ApiDataResponse<Page<BookingDto>> getBookingListWithCustomer(
+            @PathVariable String userEmail,
+            Pageable pageable
+    ) {
+
+        int page = (pageable.getPageNumber() ==0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10); // @@@
+
+        Page<BookingDto> resultPage = bookingService.getBookingListWithCustomerEmail(userEmail, pageable);
+
+        return ApiDataResponse.of(resultPage);
     }
 
     @GetMapping("/api/bookinglist-with-email")
