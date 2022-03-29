@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ReviewRequest {
 
+    private Long storeId;
+    private Long bookingId;
     private String reviewTitle;
     private String reviewContents;
     private int star;

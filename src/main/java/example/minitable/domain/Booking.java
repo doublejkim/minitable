@@ -59,10 +59,28 @@ public class Booking {
         this.callCount = callCount;
     }
 
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
+    public void changeUser(User user) {
+        if(user!=null) {
+            this.user = user;
+            this.user.getBookingList().add(this);
+        }
+    }
+
+    public void changeStore(Store store) {
+        if(store!=null) {
+            this.store = store;
+            this.store.getBookingList().add(this);
+        }
+    }
+
     public Booking(User user, Store store, String criterionDate) {
 
-        this.user = user;
-        this.store = store;
+        changeUser(user);
+        changeStore(store);
         this.criterionDate = criterionDate;
         this.completeYn = "N";
         this.forcedCanceledYn = "N";

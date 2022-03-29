@@ -3,7 +3,6 @@ package example.minitable.domain;
 import example.minitable.domain.store.Store;
 import example.minitable.dto.UserDto;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -49,6 +48,12 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Booking> bookingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<ReviewFileStore> reviewFileStores = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;

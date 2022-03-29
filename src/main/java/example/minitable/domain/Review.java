@@ -1,6 +1,7 @@
 package example.minitable.domain;
 
 import example.minitable.domain.store.Store;
+import example.minitable.dto.ReviewRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,6 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     private Booking booking;
@@ -36,9 +36,12 @@ public class Review {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @OneToOne(mappedBy = "review")
+    private ReviewFileStore reviewFileStore;
+
     private LocalDateTime bookingAt;
 
-    private int start;
+    private int star;
     private String reviewTitle;
     private String reviewText;
     private String removeYn;
@@ -49,8 +52,45 @@ public class Review {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    private void changeUser(User user) {
+    public void setReviewFileStore(ReviewFileStore reviewFileStore) {
+        this.reviewFileStore = reviewFileStore;
+    }
+
+    public void changeUser(User user) {
         this.user = user;
-        this.user.getReviews().add(this);
+        //this.user.getReviews().add(this);
+    }
+
+    public void changeBooking(Booking booking) {
+        if(booking!=null) {
+            this.booking = booking;
+            this.booking.setReview(this);
+        }
+    }
+
+    public void changeStore(Store store) {
+        if(store!=null) {
+            this.store = store;
+          //  this.store.getReviews().add(this);
+        }
+
+    }
+
+    public Review(User user, Booking booking, Store store,
+                  ReviewRequest reviewRequest) {
+
+        this.changeUser(user);
+        this.changeBooking(booking);
+        this.changeStore(store);
+
+        this.reviewTitle = reviewRequest.getReviewTitle();
+        this.reviewText = reviewRequest.getReviewContents();
+        this.star = reviewRequest.getStar();
+        this.removeYn = "N";
+    }
+
+    public static Review of(User user, Booking booking, Store store, ReviewRequest reviewRequest) {
+
+        return new Review(user, booking, store, reviewRequest);
     }
 }

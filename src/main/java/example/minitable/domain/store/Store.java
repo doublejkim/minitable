@@ -1,8 +1,6 @@
 package example.minitable.domain.store;
 
-import example.minitable.domain.Menu;
-import example.minitable.domain.RandomRegister;
-import example.minitable.domain.User;
+import example.minitable.domain.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +34,12 @@ public class Store {
 
     @OneToMany(mappedBy = "store")
     private List<Menu> menus;
+
+    @OneToMany(mappedBy = "store")
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store")
+    private List<Booking> bookingList = new ArrayList();
 
     // TODO : Convenience 데이터를 만들때 관계 기술 필요 (현재는 skip)
 
