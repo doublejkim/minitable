@@ -6,6 +6,7 @@ import example.minitable.dto.ReviewRequest;
 import example.minitable.dto.SeatDto;
 import example.minitable.service.BookingService;
 import example.minitable.service.CallService;
+import example.minitable.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final CallService callService;
+    private final ReviewService reviewService;
 
 
     @GetMapping("/booking")
@@ -73,38 +75,7 @@ public class BookingController {
         return new ModelAndView("booking/withcustomer", map);
     }
 
-    @PostMapping("/review/createReview")
-    public ModelAndView createReview(
-            String storeId,
-            String bookingId
-    ) {
-        log.debug("     >>> ######################################## POST createReview() !!! storeId : " + storeId + ", bookingId : " + bookingId);
-        Map<String, Object> map = new HashMap<>();
 
-        // 차후 필요한 작업이 있으면 여기에 기술
-        map.put("storeId", storeId);
-        map.put("bookingId", bookingId);
-
-        return new ModelAndView("review/createReviewPage", map);
-    }
-
-    @PostMapping("/review/createReview.do")
-    public String createReviewDo(
-        ReviewRequest reviewRequest
-    ) {
-
-        log.debug("     >>> ######################################## GET createReviewDo() !!!");
-        log.debug("title : " + reviewRequest.getReviewTitle());
-        log.debug("contents : " + reviewRequest.getReviewContents());
-        log.debug("star : " + reviewRequest.getStar());
-
-        if(reviewRequest.getAttachFile()!=null && !reviewRequest.getAttachFile().isEmpty()) {
-            log.debug("original File Name : " + reviewRequest.getAttachFile().getOriginalFilename());
-        }
-
-
-        return "redirect:/bookinglist-with-customer";
-    }
 
     /**
      * Store Owner 유저가 본인 점포 기준으로 등록된 예약 현황 조회 컨트롤러
