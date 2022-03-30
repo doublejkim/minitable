@@ -155,7 +155,7 @@
 
           <p>
             <label for="randomNo" class="sr-only">RandomNo</label>
-            <input type="text" id="randomNo" name="randomNo" class="form-control w-full border border-gray-200" placeholder="업체 고유 번호" th:disabled="${isExistBookingInfo}" required autofocus>
+            <input type="text" id="randomNo" name="randomNo" th:value="${store.randomNo}" class="form-control w-full border border-gray-200" placeholder="업체 고유 번호" th:disabled="${isExistBookingInfo}" required autofocus>
           </p>
 
 
@@ -185,7 +185,7 @@
 
           <!-- 테스트용. 업체 고유 번호 전용 화면이 만들어지면 삭제할것 -->
           <div class="space-y-6">
-            <p class="text-base text-gray-900" th:text="${store.randomNo}">Desc 3</p>
+            <p class="text-base text-gray-900" th:text="|임시 업체 고유 번호 : ${store.randomNo}|">Desc 3</p>
           </div>
           <!--   .......  -->
 
