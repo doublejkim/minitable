@@ -116,11 +116,15 @@ public class BookingController {
 
     @PostMapping("/booking/callcustomer")
     public String callCustomer(
-            @NotEmpty String userEmail
+            @NotEmpty String userEmail,
+            @NotEmpty Long bookingId
     ) {
 
-        System.out.println("    >>> ######################################## callCustomer start. meail : " + userEmail);
-        boolean result = callService.callToCustomer(userEmail);
+        System.out.println("    >>> ######################################## callCustomer start. meail");
+        System.out.println("userEmail = " + userEmail);
+        System.out.println("bookingId = " + bookingId);
+
+        boolean result = callService.callToCustomer(userEmail, bookingId);
 
         System.out.println("    >>> ######################################## callCustomer end. result : " + result);
         return "redirect:/bookinglist";

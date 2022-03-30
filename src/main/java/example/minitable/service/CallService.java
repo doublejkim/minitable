@@ -1,12 +1,16 @@
 package example.minitable.service;
 
+import example.minitable.domain.Booking;
 import example.minitable.domain.User;
 import example.minitable.dto.MailDto;
+import example.minitable.repository.BookingRepository;
 import example.minitable.repository.UserRepository;
 import example.minitable.service.contact.MailContactServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -14,10 +18,10 @@ import org.springframework.stereotype.Service;
 public class CallService {
 
     private final UserRepository userRepository;
-
+    private final BookingRepository bookingRepository;
     private final MailContactServiceImpl mailContactService;
 
-    public boolean callToCustomer(String userEmail) {
+    public boolean callToCustomer(String userEmail, Long bookingId) {
 
         User user = userRepository.findByEmail(userEmail);
 
@@ -43,6 +47,16 @@ public class CallService {
         // 2) 다른 연락수단 전송 필요. 현재 erd 설계상 twitter id 가 존재하는데, telegram 으로 변경 계획중
 
 
+        // 3) booking Id 로 예약정보를 획득하여 callCount 를 조정
+        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+
+        if(booking==null) {
+            return false; //차후 에 예외 발생해서 종료시키는것도 고려
+        }
+
+        booking.setCallCount(booking.getCallCount()+1);
+
+
         return true;
     }
 
@@ -62,7 +76,7 @@ public class CallService {
 
     private boolean isTestEmail(String email) {
 
-        return  email.contains("test");
+        return  email.toLowerCase(Locale.ROOT).contains("test");
 
     }
 
