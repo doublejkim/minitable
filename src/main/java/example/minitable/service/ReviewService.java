@@ -8,6 +8,8 @@ import example.minitable.domain.User;
 import example.minitable.domain.store.Restaurant;
 import example.minitable.dto.ReviewRequest;
 import example.minitable.dto.ReviewResponse;
+import example.minitable.dto.StoreReviewDetailsDto;
+import example.minitable.dto.StoreReviewResponse;
 import example.minitable.dto.file.UploadFileDto;
 import example.minitable.exception.GeneralException;
 import example.minitable.repository.BookingRepository;
@@ -17,11 +19,14 @@ import example.minitable.repository.ReviewRepository;
 import example.minitable.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,6 +41,11 @@ public class ReviewService {
 
     private final FileUtil fileUtil;
 
+    /**
+     * 리뷰 생성 서비스
+     * @param reviewRequest storeId, bookingId 정보
+     * @return true : 성공, false : 실패
+     */
     @Transactional
     public boolean createReviewDo(ReviewRequest reviewRequest) {
 
@@ -48,6 +58,9 @@ public class ReviewService {
         if(restaurant==null) {
             return false;  // view 에서 응답이 필요하므로 일단 false 리턴. 차후 api 호출이 되면 exception throw 하자
         }
+
+        // star 계산
+        restaurant.calcStarAvg(reviewRequest.getStar());
 
         // Booking 정보 획득
         Booking booking = bookingRepository.findById(reviewRequest.getBookingId()).orElse(null);
@@ -99,6 +112,36 @@ public class ReviewService {
         review.setStar(reviewRequest.getStar());
 
         return true;
+    }
+
+    /**
+     * 특정 점포 (Store) 의 리뷰 리스트 조회
+     * @param storeId
+     * @param pageable
+     * @return
+     */
+    public Page<StoreReviewResponse> getStoreReviewList(Long storeId, Pageable pageable) {
+
+        // 30 일 이전 데이터만 가져오도록 가정
+        return reviewRepository.findStoreReviewListByStoreId(storeId, 30, pageable);
+
+    }
+
+    public StoreReviewDetailsDto getStoreReviewDetails(Long reviewId) {
+
+        StoreReviewDetailsDto resultDto =  reviewRepository.findStoreReviewDetails(reviewId)
+               .orElseThrow(()->new GeneralException(ErrorCode.INTERNAL_ERROR));
+
+
+        log.debug("      >>> 파일 찾아 보자  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        List<ReviewFileStore> resultList = reviewFileStoreRepository.findByReviewId(reviewId);
+
+
+        resultList.forEach(value ->{
+            resultDto.getAttachFiles().add(value.getVirtualfileName());
+        });
+
+        return resultDto;
     }
 
 }
