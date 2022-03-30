@@ -20,6 +20,7 @@ public class StoreDto {
 
     private String bookingLimitYn;
     private double starAvg;
+    private int reviewCnt;
     private String randomNo;
 
     // Restaurant 전용 필드 추가
@@ -32,7 +33,7 @@ public class StoreDto {
 
     @QueryProjection
     public StoreDto(Long storeId, String storeName, String address, String phone, String startTime, String endTime,
-                    String bookingLimitYn, double starAvg, String randomNo, String startBreaktime, String endBreaktime,
+                    String bookingLimitYn, double starAvg, int reviewCnt, String randomNo, String startBreaktime, String endBreaktime,
                     String pestControlYn, String lastPestControlDate)
     {
         this.storeId = storeId;
@@ -60,6 +61,7 @@ public class StoreDto {
                 restaurant.getEndTime(),
                 restaurant.getBookingLimitYn(),
                 restaurant.getStarAvg(),
+                restaurant.getReviewCnt(),
                 restaurant.getRandomNo(),
                 restaurant.getStartBreaktime(),
                 restaurant.getEndBreaktime(),

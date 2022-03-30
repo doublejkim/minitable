@@ -93,8 +93,8 @@ public class BookingDto {
         this.createdAt =  createdAt.format(DateTimeFormatter.ofPattern("a hh:mm"));
         this.modifiedAt = modifiedAt.format(DateTimeFormatter.ofPattern("a hh:mm"));
 
-        // 14일이내의 예약내역에 관해서는 리뷰 등록/수정 가능 하도록 설정
-        if(Duration.between(createdAt.toLocalDate().atStartOfDay(), LocalDateTime.now().toLocalDate().atStartOfDay()).toDays() <= 14) {
+        // 7일 이내의 예약내역에 관해서는 리뷰 등록/수정 가능 하도록 설정
+        if(Duration.between(createdAt.toLocalDate().atStartOfDay(), LocalDateTime.now().toLocalDate().atStartOfDay()).toDays() <= 7) {
             this.reviewable = true;
         } else {
             this.reviewable = false;
