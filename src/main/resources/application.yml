@@ -1,6 +1,6 @@
 debug: true
 
-file.dir: /Users/doublejkim/filestore_temp/   # 마지막 슬래시까지 넣어야함
+file.dir: /Users/doublejkim/filestore_temp/   # NAS 같은 스토리지 위치 지정. 마지막 slash 까지 작성하고 활용하는게 좋음
 
 spring:
   datasource:
