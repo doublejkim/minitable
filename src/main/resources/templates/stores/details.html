@@ -144,7 +144,7 @@
               <p>&nbsp;&nbsp;</p>
               <h3 class="text-sm text-gray-900 font-medium" th:text="${store.starAvg}">Star Avg 4.5</h3>
             </div>
-            <!--<a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">117 reviews</a>-->
+            <a th:href="@{'/review/' + ${store.storeId}}" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500" th:text="|${store.reviewCnt} reviews|" th:disabled="${store.reviewCnt==0}">xxx reviews</a>
           </div>
         </div>
 
