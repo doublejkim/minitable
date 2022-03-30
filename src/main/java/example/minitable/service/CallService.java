@@ -9,11 +9,13 @@ import example.minitable.service.contact.MailContactServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class CallService {
 
@@ -21,6 +23,7 @@ public class CallService {
     private final BookingRepository bookingRepository;
     private final MailContactServiceImpl mailContactService;
 
+    @Transactional
     public boolean callToCustomer(String userEmail, Long bookingId) {
 
         User user = userRepository.findByEmail(userEmail);

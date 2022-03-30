@@ -44,6 +44,7 @@ public class StoreDto {
         this.endTime = endTime;
         this.bookingLimitYn = bookingLimitYn;
         this.starAvg = starAvg;
+        this.reviewCnt = reviewCnt;
         this.randomNo = randomNo;
         this.startBreaktime = startBreaktime;
         this.endBreaktime = endBreaktime;

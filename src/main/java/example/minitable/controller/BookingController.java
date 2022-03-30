@@ -117,7 +117,7 @@ public class BookingController {
     @PostMapping("/booking/callcustomer")
     public String callCustomer(
             @NotEmpty String userEmail,
-            @NotEmpty Long bookingId
+            Long bookingId
     ) {
 
         System.out.println("    >>> ######################################## callCustomer start. meail");

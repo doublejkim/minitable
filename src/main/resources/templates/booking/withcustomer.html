@@ -43,7 +43,7 @@
 
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 
-                    <div th:if="${booking.isReviewable}">
+                    <div th:if="${booking.reviewable==true}">
 
                         <div th:if="${booking.reviewId==null}">
                             <form  method="POST" th:action="@{/review/createReview}"> <!-- 테스트 용이성을위해 일반 url 호출함. 실제로는 rest api 호출하면 활용성이 좋을듯  /api/booking/seatcustomer} -->
