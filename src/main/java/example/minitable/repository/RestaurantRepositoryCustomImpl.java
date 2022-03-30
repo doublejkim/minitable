@@ -41,6 +41,7 @@ public class RestaurantRepositoryCustomImpl implements RestaurantRepositoryCusto
                                 restaurant.endTime,
                                 restaurant.bookingLimitYn,
                                 restaurant.starAvg,
+                                restaurant.reviewCnt,
                                 restaurant.randomNo,
                                 restaurant.startBreaktime,
                                 restaurant.endBreaktime,

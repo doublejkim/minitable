@@ -93,8 +93,6 @@ public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
                         booking.completeYn.eq("Y"),
                         booking.forcedCanceledYn.eq("N")
                 )
-                .offset(pageable.getOffset()) // 몇 번 째 부터 시작할 것인지
-                .limit(pageable.getPageSize()) // 한페이지에 몇개로 제한할것인지
                 ;
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -132,6 +130,10 @@ public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    /**
+     특정 유저 이메일, 과 점포소유자이메일, 예약기준날짜(criterionDate) 를 조건으로
+     아직 착석처리되지 않은(CompleteYn : N) 예약 정보를 획득
+     */
     @Override
     public Booking findBookingByUserEmailAndStoreOwnerEmailAndCriterionDate(
             String userEmail,
