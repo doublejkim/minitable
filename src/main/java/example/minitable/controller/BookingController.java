@@ -2,7 +2,6 @@ package example.minitable.controller;
 
 import example.minitable.dto.BookingDto;
 import example.minitable.dto.BookingRequest;
-import example.minitable.dto.ReviewRequest;
 import example.minitable.dto.SeatDto;
 import example.minitable.service.BookingService;
 import example.minitable.service.CallService;
@@ -12,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +45,7 @@ public class BookingController {
 
 
     @PostMapping("/booking")
-    public String booking(@Valid BookingRequest bookingRequest) {
+    public String createBooking(@Valid BookingRequest bookingRequest) {
 
         log.debug("     >>> ######################################## POST booking() !!!");
         //Map<String, Object> map = new HashMap<>();

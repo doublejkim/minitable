@@ -36,12 +36,6 @@ public class StoreController {
     private final BookingService bookingService;
 
 
-    @PostMapping("/stores")
-    public String postStores() {
-
-        return "postStores Test";
-    }
-
     @GetMapping("/stores")
     public ModelAndView getStores(StoreSearchCondition searchCondition, Pageable pageable) {
         log.info("  >>> GET getStores() called!!!!!!!!!");

@@ -64,6 +64,29 @@ MYSQL_PASSWORD=
 Docker Compose 를 사용하여 생성할 DB 의 기본 설정을 작성하여 `db` 폴더에 위치 시켜야합니다.
 .env 환경 설정에 작성된 내용을 기반으로 Docker 에서 DB 가 설정 될 것 입니다.
 
+### 메일 전송용 smtp 서버 정보 작
+
+```yaml
+  mail:
+    host: smtp.gmail.com # SMTP 서버 호스트
+    port: 587 # SMTP 서버 포트
+    username:  # SMTP 서버 로그인 아이디 (발신자)
+    password:   # SMTP 서버 로그인 패스워드 (앱 비밀번호)
+    properties:
+      mail:
+        smtp:
+          auth: true # 사용자 인증 시도 여부 (기본값 : false)
+          timeout: 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
+          starttls:
+            enable: true # StartTLS 활성화 여부 (기본값 : false)
+```
+
+고객에게 알림메일 전송을 위한 gmail smtp 를 이용하였습니다.
+해당 username, password 를 설정해야 정상적으로 전송이 가능합니다.
+
+가입시 test 라는 문자가 들어간 이메일 계정을 사용하면 메일 알람 로직이 임의로 skip 됩니다.
+
+
 ### Docker 를 통한 MariaDB 실행
 
 ```shell

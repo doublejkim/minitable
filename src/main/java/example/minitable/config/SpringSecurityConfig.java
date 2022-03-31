@@ -50,8 +50,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
 
         // Csrf Attack 을 막기위한 Csrf Filter 적용
-        //http.csrf();
-        http.csrf().disable();
+        http.csrf();
+        //http.csrf().disable();
 
         // jwt 를 사용한다면 session 이 필요 없기 때문에  stateless 하도록 설정해야함
         /*http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -68,8 +68,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // authorization
         http.authorizeRequests()
                 // /와 /home은 모두에게 허용
-                .antMatchers("/", "/home", "/signup", "/signup-store-owner", "/error").permitAll()
+                .antMatchers("/", "/home", "/signup", "/signup-store-owner", "/error", "/hello").permitAll()
                 // hello 페이지는 USER 롤을 가진 유저에게만 허용
+                .antMatchers(HttpMethod.GET, "/api/review", "/api/stores", "/booking", "/images", "/review/details", "/review", "/stores").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/stores").hasRole("STORE_OWNER")
+                .antMatchers(HttpMethod.DELETE, "/api/stores").hasRole("STORE_OWNER")
+                .antMatchers(HttpMethod.POST, "/booking",
+                        "/review/createReview",
+                        "/review/getMyReview",
+                        "/review/createReview.do",
+                        "/review/modifyReview.do"
+                ).hasRole("CUSTOMER")
+                .antMatchers(HttpMethod.POST,
+                        "/booking/callcustomer",
+                        "/booking/seatcustomer"
+                ).hasRole("STORE_OWNER")
+                .antMatchers(
+                        "/bookinglist-with-customer",
+                        "/api/bookinglist-with-customer"
+                ).hasRole("CUSTOMER")
+                .antMatchers(
+                        "/api/booking/seatcustomer",
+                        "/api/bookinglist",
+                        "/api/bookinglist-with-email"
+                ).hasRole("STORE_OWNER")
+
                 //.antMatchers("/note").hasRole("USER")
                 //.antMatchers("/admin").hasRole("ADMIN")
                 //.antMatchers(HttpMethod.POST, "/notice").hasRole("ADMIN")
